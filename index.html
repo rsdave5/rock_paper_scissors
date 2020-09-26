@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Rock Paper Scissors</title>
+	<meta charset="UTF-8" />
+</head>
+
+<body>
+	<div id="app"></div>
+
+    <script>
+        /*
+        The Rock Paper Scissors Game!
+        Assignment from https://www.theodinproject.com/courses/web-development-101/lessons/rock-paper-scissors?ref=lnav
+        */
+
+        //initialze computer choice
+        const computerPlay = () => {
+        let result = "";
+        let num = Math.random();
+        if (num <= 0.33) result += 'Rock'
+        if (num > 0.33 && num <= 0.66) result += 'Paper'
+        if (num > 0.66) result += 'Scissors'
+        
+        return result;
+        }
+
+        // plays a single round of rps
+        // takes two parameters: playerSelection and computerSelection
+        // returns a string that declares a winner
+        const playRound = (playerSelection, computerSelection) => {
+        // make function case insensitive
+        let playerSelectionConv = playerSelection.substring(0, 1).toUpperCase() + playerSelection.substring(1, playerSelection.length).toLowerCase()
+        // initialize message
+        let message = ""
+        //matchup string
+        let matchup = playerSelectionConv + "|" + computerSelection
+        // three possible result strings
+        if (playerSelectionConv === computerSelection) {
+            message += `It's a tie!`
+        } else if (matchup === 'Rock|Scissors' || matchup === 'Scissors|Paper' || matchup === 'Paper|Rock') {
+            message += `You win! ${playerSelectionConv} beats ${computerSelection}.`
+        } else if (matchup === 'Scissors|Rock' || matchup === 'Paper|Scissors' || matchup === 'Rock|Paper') {
+            message += `You lose! ${computerSelection} beats ${playerSelectionConv}.`
+        } else {
+            message += `Invalid entry.`
+        }
+        
+        return message;
+        }
+
+        const game = () => {
+        // use playRound() and play it 5 times
+        
+        let playerScore = 0;
+        let computerScore = 0;
+        let result = ""
+        
+        //play 5 times
+        for (let i = 0; i < 5; i++) {
+            // prompt user for input
+            let playerChoice = prompt('Enter a choice: Rock, paper, or scissors?');
+            // computer input
+            let computerChoice = computerPlay();
+        
+            let winningMessage = playRound(playerChoice, computerChoice)
+            
+            console.log(winningMessage);
+            if (winningMessage.includes('win')) playerScore++;
+            if (winningMessage.includes('lose')) computerScore++ ;
+            console.log(`Score: ${playerScore} - ${computerScore}`);  
+        }
+        console.log( (playerScore > computerScore) ? `You beat the computer, ${playerScore} - ${computerScore}! Great job.` : `The computer beat you. Better luck next time.`)
+        
+        }
+
+        game();
+    </script>
+</body>
+
+</html>
